@@ -1,0 +1,12 @@
+.weather {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+    justify-content: space-evenly;
+    gap: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,33 @@
+.ForecastMain {
+    display: flex;
+    gap: 10px;
+    width: 88%;
+    height: 50vh;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.forecastCard {
+    display: flex;
+    width: 10%;
+    height: 75%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 10px;
+    flex-direction: column;
+}
+
+.hlForecast {
+    border-radius: 25px;
+    background: rgba(0, 0, 0, 0.2);
+    height: 3px;
+    width: 100%;
+}
+
+.imageCard {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
