@@ -1,53 +1,60 @@
 import React, { useState,useEffect } from 'react'; 
 import './App.css';
 import axios from 'axios';
-//import useFetch from './app/useFecth';
 import classes from "./Layouts/mainWeather.module.css";
 import Dailyweather from './components/dailyWeather';
 import Weatherforecast from './components/weatherForecast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faCloudSun, faCloudSunRain, faMoon, faCloudMoon, faCloudMoonRain, faCloud, faSnowflake, faFog} from '@fortawesome/free-solid-svg-icons';
+import { faSun, faCloudSun, faCloudSunRain, faMoon, faCloudMoon, faCloudMoonRain, faCloud, faSnowflake} from '@fortawesome/free-solid-svg-icons';
 
-const API_KEY = '18f1e0ececcfc884b88a6d44fa764963';	
+const API_KEY = 'Your Api Key';	
 
-const icons = {
-	'01d': <FontAwesomeIcon icon={faSun} size='6x' />,
-	'01n': <FontAwesomeIcon icon={faMoon} size='6x'/>,
-	'02d': <FontAwesomeIcon icon={faCloudSun} size='6x'/>,
-	'02n': <FontAwesomeIcon icon={faCloudMoon} size='6x'/>,
-	'03d': <FontAwesomeIcon icon={faCloud} size='6x'/>,
-	'10d': <FontAwesomeIcon icon={faCloudSunRain} size='6x'/>,
-	'10n': <FontAwesomeIcon icon={faCloudMoonRain} size='6x'/>,
-	'13d': <FontAwesomeIcon icon={faSnowflake} size='6x' />
+const checkWeatherImage = (value,size) => {
+	let weather;
+	switch (value) {
+		case '01d':
+			weather = <FontAwesomeIcon icon={faSun} size={size} />;
+			break;
+		case '01n':
+			weather = <FontAwesomeIcon icon={faMoon} size={size} />;
+			break;
+		case '02d':
+			weather = <FontAwesomeIcon icon={faCloudSun} size={size} />;
+			break;
+		case '02n':
+			weather = <FontAwesomeIcon icon={faCloudMoon} size={size} />;
+			break;
+		case '03d' :
+		case '03n':
+		case '04d':
+		case '04n':
+			weather = <FontAwesomeIcon icon={faCloud} size={size} />;
+			break;
+		case '10d':
+			weather = <FontAwesomeIcon icon={faCloudSunRain} size={size} />;
+			break;
+		case '10n':
+			weather = <FontAwesomeIcon icon={faCloudMoonRain} size={size} />;	
+			break;
+		case '13d' :
+		case '13n':
+			weather = <FontAwesomeIcon icon={faSnowflake} size={size} />;
+			break;
+		default: <FontAwesomeIcon icon={faSun} size={size} />;
+	}
+
+	return weather;
 }
 
-const icons2 = {
-	'01d': <FontAwesomeIcon icon={faSun} size='3x' />,
-	'01n': <FontAwesomeIcon icon={faMoon} size='3x'/>,
-	'02d': <FontAwesomeIcon icon={faCloudSun} size='3x'/>,
-	'02n': <FontAwesomeIcon icon={faCloudMoon} size='3x'/>,
-	'03d': <FontAwesomeIcon icon={faCloud} size='3x'/>,
-	'10d': <FontAwesomeIcon icon={faCloudSunRain} size='3x'/>,
-	'10n': <FontAwesomeIcon icon={faCloudMoonRain} size='3x'/>,
-	'13d': <FontAwesomeIcon icon={faSnowflake} size='3x'/>
-}
-const checkWeatherImage = (value) => {
-	if (value.substr(0,2) === "03" || value.substr(0,2) === "04") {
-		return icons['03d'];
-	} else if (value.substr(0,2) === "13") {
-		return icons['13d'];
-	} 
-	return icons[value];
-}
+// const checkWeatherImageForecast = (value) => {	
+// 	if (value.substr(0,2) === "03" || value.substr(0,2) === "04") {
+// 		return icons2['03d'];
+// 	} else if (value.substr(0,2) === "13") {
+// 		return icons2['13d'];
+// 	}
+// 	return icons2[value];
+// }
 
-const checkWeatherImageForecast = (value) => {	
-	if (value.substr(0,2) === "03" || value.substr(0,2) === "04") {
-		return icons2['03d'];
-	} else if (value.substr(0,2) === "13") {
-		return icons2['13d'];
-	} 
-	return icons2[value];
-}
 
 function App() {
 	const [location, setLocation] = useState({lat:null,lng:null})
@@ -72,26 +79,11 @@ function App() {
 
 	const kelvintocelsius = (tempk) => {
 		if (tempk) {
-			const temperature = tempk - 273.15;
-			return Math.trunc(temperature);
+			return Math.trunc(tempk - 273.15);
 		}
-	} 
+	}
 
-	// const cprop = {
-	// 	'image1': { data.daily[1] ?checkWeatherImage(data.daily[0].weather[0].icon) : "Loading...." },
-	// 	'temperature1': '',
-	// 	'image2': checkWeatherImage(data.daily[2].weather[0].icon),
-	// 	'temperature2':'',
-	// 	'image3': checkWeatherImage(data.daily[3].weather[0].icon),
-	// 	'temperature3':'',
-	// 	'image4': checkWeatherImage(data.daily[4].weather[0].icon),
-	// 	'temperature4':'',
-	// 	'image5': checkWeatherImage(data.daily[5].weather[0].icon),
-	// 	'temperature5': '',
-	// }
-	console.log(data.daily)
-
-	
+	console.log(data.daily);
 
 	return (
 		<div className={classes.weather}>
@@ -100,23 +92,23 @@ function App() {
 				temperature={data.daily ? kelvintocelsius(data.daily[0].temp.day) : "Loading...."}
 				minTemperature={data.daily ? kelvintocelsius(data.daily[0].temp.min) : "Loading...."}
 				maxTemperature={data.daily ? kelvintocelsius(data.daily[0].temp.max) : "Loading...."}
-				icon={data.daily ? checkWeatherImage(data.daily[0].weather[0].icon) : "Loading...."}
+				icon={data.daily ? checkWeatherImage(data.daily[0].weather[0].icon,'6x') : "Loading...."}
 				speed={data.daily ? data.daily[0].wind_speed : "Loading...."}
 				feelsLike={data.daily ? kelvintocelsius(data.daily[0].feels_like.day) : "Loading...."}
 				pressure={data.daily ? data.daily[0].pressure : "Loading...."}
 				humidity={data.daily ? data.daily[0].humidity : "Loading...."}
 			/>
-			
+
 			<Weatherforecast
-				image1={data.daily ? checkWeatherImageForecast(data.daily[1].weather[0].icon) : "Loading...."}
+				image1={data.daily ? checkWeatherImage(data.daily[1].weather[0].icon,'3x') : "Loading...."}
 				temperature1 = {data.daily ? kelvintocelsius(data.daily[1].temp.day) : "Loading...."}
-				image2={data.daily ? checkWeatherImageForecast(data.daily[2].weather[0].icon) : "Loading...."}
+				image2={data.daily ? checkWeatherImage(data.daily[2].weather[0].icon,'3x') : "Loading...."}
 				temperature2 = {data.daily ? kelvintocelsius(data.daily[2].temp.day) : "Loading...."}
-				image3={data.daily ? checkWeatherImageForecast(data.daily[3].weather[0].icon) : "Loading...."}
+				image3={data.daily ? checkWeatherImage(data.daily[3].weather[0].icon,'3x') : "Loading...."}
 				temperature3 = {data.daily ? kelvintocelsius(data.daily[3].temp.day) : "Loading...."}
-				image4={data.daily ? checkWeatherImageForecast(data.daily[4].weather[0].icon) : "Loading...."}
+				image4={data.daily ? checkWeatherImage(data.daily[4].weather[0].icon,'3x') : "Loading...."}
 				temperature4 = {data.daily ? kelvintocelsius(data.daily[4].temp.day) : "Loading...."}
-				image5={data.daily ? checkWeatherImageForecast(data.daily[5].weather[0].icon) : "Loading...."}
+				image5={data.daily ? checkWeatherImage(data.daily[5].weather[0].icon,'3x') : "Loading...."}
 				temperature5 = {data.daily ? kelvintocelsius(data.daily[5].temp.day) : "Loading...."}
 			/>
     	</div>
